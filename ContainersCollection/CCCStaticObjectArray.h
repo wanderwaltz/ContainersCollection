@@ -25,7 +25,7 @@
 
 #pragma mark properties
 
-@property (readonly, nonatomic) NSUInteger count;
+@property (readonly, nonatomic) NSUInteger capacity;
 
 
 

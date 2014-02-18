@@ -39,28 +39,35 @@
     [self release];
      self = nil;
     
+    @throw [[self class] zeroCapacityException];
+    
     return self;
-}
-
-
-+ (instancetype) new
-{
-    return nil;
 }
 
 
 - (instancetype) initWithCapacity: (NSUInteger) capacity
 {
-    // TODO: implement
-    return nil;
+    return [self initWithCapacity: capacity
+                          options: [[self class] defaultOptions]];
 }
 
 
 - (instancetype) initWithCapacity: (NSUInteger)     capacity
                           options: (NSDictionary *) options
 {
-    // TODO: implement
-    return nil;
+    if (capacity > 0)
+    {
+        // TODO: implement
+    }
+    else
+    {
+        [self release];
+         self = nil;
+        
+        @throw [[self class] zeroCapacityException];
+    }
+    
+    return self;
 }
 
 
@@ -140,6 +147,30 @@
 #pragma mark <NSCopying>
 
 - (instancetype) copyWithZone:(NSZone *)zone
+{
+    // TODO: implement
+    return nil;
+}
+
+
+#pragma mark -
+#pragma mark private: exceptions
+
++ (NSException *) zeroCapacityException
+{
+    return [NSException exceptionWithName: NSInvalidArgumentException
+                                   reason:
+            [NSString stringWithFormat:
+             @"Unable to create %@ instance with zero capacity.",
+             NSStringFromClass(self)]
+                                 userInfo: nil];
+}
+
+
+#pragma mark -
+#pragma mark private: options
+
++ (NSDictionary *) defaultOptions
 {
     // TODO: implement
     return nil;
