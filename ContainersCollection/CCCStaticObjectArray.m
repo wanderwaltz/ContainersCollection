@@ -11,6 +11,7 @@
 #endif
 
 #import "CCCStaticObjectArray.h"
+#import "CCCAccessors.h"
 
 
 #pragma mark -
@@ -21,6 +22,9 @@
 @private
     /// array of objects stored in the container
     id* _objects;
+    
+    CCCGetterPtr _getter;
+    CCCSetterPtr _setter;
 }
 
 @end
@@ -68,7 +72,11 @@
         if (self != nil)
         {
             _capacity = capacity;
-            _objects  = malloc(sizeof(id) * capacity);
+            _objects  = calloc(capacity, sizeof(id));
+            
+            // TODO: use different setters/getters depending on options
+            _getter = CCCGetterRetainAutorelease;
+            _setter = CCCSetterRetain;
         }
 
         return self;
@@ -173,15 +181,16 @@ else                                                \
 
 - (id) objectAtIndex: (NSUInteger) index
 {
-    // TODO: implement
-    return nil;
+    NSAssert(_getter != nil, @"Getter policy is not set!");
+    return _getter(_objects+index);
 }
 
 
 - (void) setObject: (id)         object
            atIndex: (NSUInteger) index
 {
-    // TODO: implement
+    NSAssert(_setter != nil, @"Setter policy is not set!");
+    _setter(_objects+index, object);
 }
 
 

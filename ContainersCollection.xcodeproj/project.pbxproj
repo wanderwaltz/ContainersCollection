@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B802E18B4AD0C009324AE /* CCCAccessors.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7CA7658A18B363670047C37E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7658918B363670047C37E /* Foundation.framework */; };
 		7CA7659818B363680047C37E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7659718B363680047C37E /* XCTest.framework */; };
 		7CA7659918B363680047C37E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7658918B363670047C37E /* Foundation.framework */; };
@@ -40,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C8B802D18B4AD0C009324AE /* CCCAccessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCAccessors.h; sourceTree = "<group>"; };
+		7C8B802E18B4AD0C009324AE /* CCCAccessors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCAccessors.m; sourceTree = "<group>"; };
 		7CA7658618B363670047C37E /* libContainersCollection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libContainersCollection.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA7658918B363670047C37E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		7CA7658D18B363670047C37E /* ContainersCollection-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContainersCollection-Prefix.pch"; sourceTree = "<group>"; };
@@ -76,6 +79,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C8B802A18B4ACD7009324AE /* private */ = {
+			isa = PBXGroup;
+			children = (
+				7C8B802C18B4ACEF009324AE /* Helper Functions */,
+			);
+			name = private;
+			sourceTree = "<group>";
+		};
+		7C8B802B18B4ACE4009324AE /* public */ = {
+			isa = PBXGroup;
+			children = (
+				7CA765AF18B364240047C37E /* C Static Array */,
+			);
+			name = public;
+			sourceTree = "<group>";
+		};
+		7C8B802C18B4ACEF009324AE /* Helper Functions */ = {
+			isa = PBXGroup;
+			children = (
+				7C8B802D18B4AD0C009324AE /* CCCAccessors.h */,
+				7C8B802E18B4AD0C009324AE /* CCCAccessors.m */,
+			);
+			name = "Helper Functions";
+			sourceTree = "<group>";
+		};
 		7CA7657D18B363670047C37E = {
 			isa = PBXGroup;
 			children = (
@@ -108,7 +136,8 @@
 		7CA7658B18B363670047C37E /* ContainersCollection */ = {
 			isa = PBXGroup;
 			children = (
-				7CA765AF18B364240047C37E /* C Static Array */,
+				7C8B802A18B4ACD7009324AE /* private */,
+				7C8B802B18B4ACE4009324AE /* public */,
 				7CA7658C18B363670047C37E /* Supporting Files */,
 			);
 			path = ContainersCollection;
@@ -230,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */,
 				7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
