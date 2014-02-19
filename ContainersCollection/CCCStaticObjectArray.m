@@ -221,20 +221,6 @@ else                                                \
 
 
 #pragma mark -
-#pragma mark private: exceptions
-
-+ (NSException *) zeroCapacityException
-{
-    return [NSException exceptionWithName: NSInvalidArgumentException
-                                   reason:
-            [NSString stringWithFormat:
-             @"Unable to create %@ instance with zero capacity.",
-             NSStringFromClass(self)]
-                                 userInfo: nil];
-}
-
-
-#pragma mark -
 #pragma mark private: options
 
 + (NSDictionary *) defaultOptions
