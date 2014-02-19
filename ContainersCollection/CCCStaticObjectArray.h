@@ -15,6 +15,7 @@
 // TODO: optional range checking
 // TODO: unit tests
 // TODO: options for -objectAtIndex: to return either retain/autoreleased or as-is
+// TODO: concurrent block-based enumeration
 
 #pragma mark -
 #pragma mark CCCStaticObjectArray interface
