@@ -38,20 +38,10 @@
 #pragma mark -
 #pragma mark initialization methods
 
-- (instancetype) initWithZeroCapacity
-{
-    [self release];
-    self = nil;
-    
-    @throw [[self class] zeroCapacityException];
-    
-    return self;
-}
-
-
 - (instancetype) init
 {
-    return [self initWithZeroCapacity];
+    return [self initWithCapacity: 0
+                          options: [[self class] defaultOptions]];
 }
 
 
@@ -65,26 +55,27 @@
 - (instancetype) initWithCapacity: (NSUInteger)     capacity
                           options: (NSDictionary *) options
 {
-    if (capacity > 0)
+    self = [super init];
+    
+    if (self != nil)
     {
-        self = [super init];
+        _capacity = capacity;
         
-        if (self != nil)
+        if (_capacity > 0)
         {
-            _capacity = capacity;
-            _objects  = calloc(capacity, sizeof(id));
-            
-            // TODO: use different setters/getters depending on options
-            _getter = CCCGetterRetainAutorelease;
-            _setter = CCCSetterRetain;
+            _objects = calloc(capacity, sizeof(id));
         }
-
-        return self;
+        else
+        {
+            _objects = NULL;
+        }
+        
+        // TODO: use different setters/getters depending on options
+        _getter = CCCGetterRetainAutorelease;
+        _setter = CCCSetterRetain;
     }
-    else
-    {
-        return [self initWithZeroCapacity];
-    }
+    
+    return self;
 }
 
 
@@ -98,26 +89,19 @@
 - (instancetype) initWithArray: (NSArray *) array
                        options: (NSDictionary *) options
 {
-    if (array.count > 0)
+    self = [self initWithCapacity: array.count
+                          options: options];
+    
+    if (self != nil)
     {
-        self = [self initWithCapacity: array.count
-                              options: options];
-        
-        if (self != nil)
-        {
-            [array enumerateObjectsUsingBlock:
-             ^(id object, NSUInteger index, BOOL *stop) {
-                 
-                 [self setObject: object atIndex: index];
-                
-            }];
-        }
-        return self;
+        [array enumerateObjectsUsingBlock:
+         ^(id object, NSUInteger index, BOOL *stop) {
+             
+             [self setObject: object atIndex: index];
+             
+         }];
     }
-    else
-    {
-        return [self initWithZeroCapacity];
-    }
+    return self;
 }
 
 
@@ -157,7 +141,8 @@ if (firstObject != nil)                             \
 }                                                   \
 else                                                \
 {                                                   \
-    return [self initWithZeroCapacity];             \
+    return [self initWithCapacity: 0                \
+                          options: Options];        \
 }
 
 

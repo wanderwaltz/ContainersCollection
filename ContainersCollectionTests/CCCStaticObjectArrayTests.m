@@ -28,17 +28,20 @@
 
 #pragma mark -init tests
 
-- (void) test_init_throws
+- (void) test_init_nonNil
 {
-    XCTAssertThrows([CCCStaticObjectArray valueForKeyPath: @"alloc.init"],
-                    @"Sending -init message should throw an exception.");
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] init];
+    
+    XCTAssertNotNil(array, @"-init returns a non-nil array.");
 }
 
 
-- (void) test_new_throws
+- (void) test_init_capacityValue
 {
-    XCTAssertThrows([CCCStaticObjectArray performSelector: @selector(new)],
-                    @"Sending +new message should throw an exception.");
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] init];
+    
+    XCTAssertEqual(array.capacity, 0u,
+                   @"CCCStaticObjectArray returned by -init should have zero capacity");
 }
 
 
@@ -59,13 +62,6 @@
     XCTAssertEqual(array.capacity, 123u,
                    @"CCCStaticObjectArray returned by -initWithCapacity: should have the "
                    @"corresponding capacity value.");
-}
-
-
-- (void) test_initWithCapacity_zero_throws
-{
-    XCTAssertThrows([[CCCStaticObjectArray alloc] initWithCapacity: 0],
-                    @"-initWithCapacity: should throw an exception if passed capacity == 0");
 }
 
 
@@ -91,22 +87,7 @@
 }
 
 
-- (void) test_initWithCapacityOptions_zero_throws
-{
-    XCTAssertThrows([[CCCStaticObjectArray alloc] initWithCapacity: 0
-                                                           options: nil],
-                    @"-initWithCapacity:options: should throw an exception if passed capacity == 0");
-}
-
-
 #pragma mark -initWithObjects: tests
-
-- (void) test_initWithObjects_nil_throws
-{
-    XCTAssertThrows([[CCCStaticObjectArray alloc] initWithObjects: nil],
-                    @"-initWithObjects: should throw an exception if passed only a single nil value");
-}
-
 
 - (void) test_initWithObjects_nonNil
 {
@@ -126,14 +107,17 @@
 }
 
 
-#pragma mark -initWithOptions:objects: tests
-
-- (void) test_initWithOptionsObjects_nil_throws
+- (void) test_initWithObjects_nil_capacityValue
 {
-    XCTAssertThrows([[CCCStaticObjectArray alloc] initWithOptions: nil objects: nil],
-                    @"-initWithOptions:objects: should throw an exception if passed only a single nil value");
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: nil];
+    
+    XCTAssertEqual(array.capacity, 0u,
+                   @"CCCStaticObjectArray returned by -initWithObjects: should have the "
+                   @"corresponding capacity value.");
 }
 
+
+#pragma mark -initWithOptions:objects: tests
 
 - (void) test_initWithOptionsObjects_nonNil
 {
@@ -149,6 +133,16 @@
     
     XCTAssertEqual(array.capacity, 3u,
                    @"CCCStaticObjectArray returned by -initWithObjects: should have the "
+                   @"corresponding capacity value.");
+}
+
+
+- (void) test_initWithOptionsObjects_nil_capacityValue
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithOptions: nil objects: nil];
+    
+    XCTAssertEqual(array.capacity, 0u,
+                   @"CCCStaticObjectArray returned by -initWithOptions:objects: should have the "
                    @"corresponding capacity value.");
 }
 
