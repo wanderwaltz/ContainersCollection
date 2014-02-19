@@ -34,14 +34,20 @@
 #pragma mark -
 #pragma mark initialization methods
 
-- (instancetype) init
+- (instancetype) initWithZeroCapacity
 {
     [self release];
-     self = nil;
+    self = nil;
     
     @throw [[self class] zeroCapacityException];
     
     return self;
+}
+
+
+- (instancetype) init
+{
+    return [self initWithZeroCapacity];
 }
 
 
@@ -57,48 +63,109 @@
 {
     if (capacity > 0)
     {
-        // TODO: implement
+        self = [super init];
+        
+        if (self != nil)
+        {
+            _capacity = capacity;
+            _objects  = malloc(sizeof(id) * capacity);
+        }
+
+        return self;
     }
     else
     {
-        [self release];
-         self = nil;
-        
-        @throw [[self class] zeroCapacityException];
+        return [self initWithZeroCapacity];
     }
-    
-    return self;
 }
 
 
 - (instancetype) initWithArray: (NSArray *) array
 {
-    // TODO: implement
-    return nil;
+    return [self initWithArray: array
+                       options: [[self class] defaultOptions]];
 }
 
 
 - (instancetype) initWithArray: (NSArray *) array
                        options: (NSDictionary *) options
 {
-    // TODO: implement
-    return nil;
+    if (array.count > 0)
+    {
+        self = [self initWithCapacity: array.count
+                              options: options];
+        
+        if (self != nil)
+        {
+            [array enumerateObjectsUsingBlock:
+             ^(id object, NSUInteger index, BOOL *stop) {
+                 
+                 [self setObject: object atIndex: index];
+                
+            }];
+        }
+        return self;
+    }
+    else
+    {
+        return [self initWithZeroCapacity];
+    }
+}
+
+
+
+#define Synthesize_initWithObjectsOptions(Options)  \
+if (firstObject != nil)                             \
+{                                                   \
+    NSUInteger count = 1;                           \
+                                                    \
+    va_list args;                                   \
+    va_start(args, firstObject);                    \
+                                                    \
+    while (va_arg(args, id) != nil) count++;        \
+                                                    \
+    va_end(args);                                   \
+                                                    \
+    self = [self initWithCapacity: count            \
+                          options: Options];        \
+                                                    \
+    if (self != nil)                                \
+    {                                               \
+        [self setObject: firstObject atIndex: 0];   \
+        NSUInteger i = 0;                           \
+        id arg       = nil;                         \
+                                                    \
+        va_start(args, firstObject);                \
+                                                    \
+        while ((arg = va_arg(args, id)))            \
+        {                                           \
+            [self setObject: arg atIndex: i];       \
+            i++;                                    \
+        }                                           \
+                                                    \
+        va_end(args);                               \
+    }                                               \
+    return self;                                    \
+}                                                   \
+else                                                \
+{                                                   \
+    return [self initWithZeroCapacity];             \
 }
 
 
 - (instancetype) initWithObjects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
-    // TODO: implement
-    return nil;
+    Synthesize_initWithObjectsOptions([[self class] defaultOptions]);
 }
 
 
 - (instancetype) initWithOptions: (NSDictionary *) options
                          objects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
-    // TODO: implement
-    return nil;
+    Synthesize_initWithObjectsOptions(options);
 }
+
+#undef Synthesize_initWithObjectsOptions
 
 
 #pragma mark -
@@ -123,7 +190,13 @@
 
 - (void) enumerateObjectsUsingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block
 {
-    // TODO: implement
+    BOOL stop = NO;
+    
+    for (NSUInteger i = 0; i < _capacity; ++i)
+    {
+        block([self objectAtIndex: i], i, &stop);
+        if (stop) break;
+    }
 }
 
 

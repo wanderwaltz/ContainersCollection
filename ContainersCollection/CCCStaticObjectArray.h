@@ -14,6 +14,7 @@
 // TODO: sorting
 // TODO: optional range checking
 // TODO: unit tests
+// TODO: options for -objectAtIndex: to return either retain/autoreleased or as-is
 
 #pragma mark -
 #pragma mark CCCStaticObjectArray interface
@@ -35,6 +36,8 @@
 + (instancetype) new  NS_UNAVAILABLE;
 
 - (instancetype) initWithCapacity: (NSUInteger)     capacity;
+
+/// Designated initializer
 - (instancetype) initWithCapacity: (NSUInteger)     capacity
                           options: (NSDictionary *) options;
 
