@@ -6,6 +6,10 @@
 //  Copyright (c) 2014 Frostbit. All rights reserved.
 //
 
+#if (!__has_feature(objc_arc))
+#error "This file should be compiled with ARC support"
+#endif
+
 #import <XCTest/XCTest.h>
 #import <objc/message.h>
 #import "CCCStaticObjectArray.h"
@@ -14,14 +18,14 @@
 #pragma mark -
 #pragma mark CCCStaticObjectArrayTests interface
 
-@interface CCCStaticObjectArrayTests : XCTestCase
+@interface CCCStaticObjectArrayTests_ARC : XCTestCase
 @end
 
 
 #pragma mark -
 #pragma mark CCCStaticObjectArrayTests implementation
 
-@implementation CCCStaticObjectArrayTests
+@implementation CCCStaticObjectArrayTests_ARC
 
 #pragma mark -
 #pragma mark initialization tests
@@ -45,6 +49,15 @@
 }
 
 
+- (void) test_init_defaultOptions
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] init];
+    
+    XCTAssertEqualObjects(array.options, [CCCStaticObjectArray defaultOptions],
+                          @"-init should create CCCStaticObjectArray with default options.");
+}
+
+
 #pragma mark -initWithCapacity: tests
 
 - (void) test_initWithCapacity_positive_nonNil
@@ -62,6 +75,15 @@
     XCTAssertEqual(array.capacity, 123u,
                    @"CCCStaticObjectArray returned by -initWithCapacity: should have the "
                    @"corresponding capacity value.");
+}
+
+
+- (void) test_initWithCapacity_defaultOptions
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 123];
+    
+    XCTAssertEqualObjects(array.options, [CCCStaticObjectArray defaultOptions],
+                          @"-initWithCapacity: should create CCCStaticObjectArray with default options.");
 }
 
 
@@ -117,6 +139,15 @@
 }
 
 
+- (void) test_initWithObjects_defaultOptions
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: nil];
+    
+    XCTAssertEqualObjects(array.options, [CCCStaticObjectArray defaultOptions],
+                          @"-initWithObjects: should create CCCStaticObjectArray with default options.");
+}
+
+
 #pragma mark -initWithOptions:objects: tests
 
 - (void) test_initWithOptionsObjects_nonNil
@@ -127,7 +158,7 @@
 }
 
 
-- (void) test_initWithOptions:objects_capacityValue
+- (void) test_initWithOptionsObjects_capacityValue
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithOptions: nil objects: @1, @2, @3, nil];
     

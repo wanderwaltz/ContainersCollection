@@ -14,6 +14,61 @@
 #import "CCCAccessors.h"
 
 
+
+#pragma mark -
+#pragma mark Static helper functions
+
+static NSDictionary *DefaultOptions(void)
+{
+    return @{ @(CCCStaticObjectArrayOptionSetterPolicy) : @(CCCStaticObjectArraySetterPolicyDefault),
+              @(CCCStaticObjectArrayOptionGetterPolicy) : @(CCCStaticObjectArrayGetterPolicyDefault) };
+}
+
+
+static NSDictionary *OverrideDefaultOptions(NSDictionary *optionsToOverride)
+{
+    NSMutableDictionary *options = [DefaultOptions() mutableCopy];
+    
+    [optionsToOverride enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop) {
+         options[key] = obj;
+     }];
+    
+    NSDictionary *immutable = [options copy];
+    
+    [options release];
+    
+    return [immutable autorelease];
+}
+
+
+static CCCSetterPtr SetterForCCCStaticObjectArraySetterPolicy(CCCStaticObjectArraySetterPolicy policy)
+{
+    switch (policy)
+    {
+        case CCCStaticObjectArraySetterPolicyAssign: return CCCSetterAssign; break;
+        case CCCStaticObjectArraySetterPolicyRetain: return CCCSetterRetain; break;
+        case CCCStaticObjectArraySetterPolicyCopy:   return CCCSetterCopy;   break;
+            
+        default: return nil; break;
+    }
+}
+
+
+static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArrayGetterPolicy policy)
+{
+    switch (policy)
+    {
+        case CCCStaticObjectArrayGetterPolicyRetainAutorlease: return CCCGetterRetainAutorelease; break;
+        case CCCStaticObjectArrayGetterPolicyRaw:              return CCCGetterRaw;               break;
+            
+        default: return nil; break;
+    }
+}
+
+
+
+
 #pragma mark -
 #pragma mark CCCStaticObjectArray private
 
@@ -38,17 +93,35 @@
 #pragma mark -
 #pragma mark initialization methods
 
+- (void) dealloc
+{
+    for (NSInteger i = 0; i < _capacity; ++i)
+    {
+        [self setObject: nil atIndex: i];
+    }
+    
+    free(_objects); _objects = nil;
+    
+    [_options release]; _options = nil;
+    
+    _getter = NULL;
+    _setter = NULL;
+    
+    [super dealloc];
+}
+
+
 - (instancetype) init
 {
     return [self initWithCapacity: 0
-                          options: [[self class] defaultOptions]];
+                          options: DefaultOptions()];
 }
 
 
 - (instancetype) initWithCapacity: (NSUInteger) capacity
 {
     return [self initWithCapacity: capacity
-                          options: [[self class] defaultOptions]];
+                          options: DefaultOptions()];
 }
 
 
@@ -70,9 +143,18 @@
             _objects = NULL;
         }
         
-        // TODO: use different setters/getters depending on options
-        _getter = CCCGetterRetainAutorelease;
-        _setter = CCCSetterRetain;
+        _options = [OverrideDefaultOptions(options) retain];
+        
+        
+        CCCStaticObjectArrayGetterPolicy getterPolicy =
+        [_options[@(CCCStaticObjectArrayOptionGetterPolicy)] integerValue];
+        
+        CCCStaticObjectArraySetterPolicy setterPolicy =
+        [_options[@(CCCStaticObjectArrayOptionSetterPolicy)] integerValue];
+        
+        
+        _getter  = GetterForCCCStaticObjectArrayGetterPolicy(getterPolicy);
+        _setter  = SetterForCCCStaticObjectArraySetterPolicy(setterPolicy);
     }
     
     return self;
@@ -82,7 +164,7 @@
 - (instancetype) initWithArray: (NSArray *) array
 {
     return [self initWithArray: array
-                       options: [[self class] defaultOptions]];
+                       options: DefaultOptions()];
 }
 
 
@@ -148,7 +230,7 @@ else                                                \
 
 - (instancetype) initWithObjects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
-    Synthesize_initWithObjectsOptions([[self class] defaultOptions]);
+    Synthesize_initWithObjectsOptions(DefaultOptions());
 }
 
 
@@ -161,8 +243,20 @@ else                                                \
 #undef Synthesize_initWithObjectsOptions
 
 
++ (NSDictionary *) defaultOptions
+{
+    return DefaultOptions();
+}
+
+
 #pragma mark -
 #pragma mark getting/setting elements
+
+- (id) objectAtIndexedSubscript: (NSUInteger) index
+{
+    return [self objectAtIndex: index];
+}
+
 
 - (id) objectAtIndex: (NSUInteger) index
 {
@@ -214,16 +308,6 @@ else                                                \
 #pragma mark <NSCopying>
 
 - (instancetype) copyWithZone:(NSZone *)zone
-{
-    // TODO: implement
-    return nil;
-}
-
-
-#pragma mark -
-#pragma mark private: options
-
-+ (NSDictionary *) defaultOptions
 {
     // TODO: implement
     return nil;

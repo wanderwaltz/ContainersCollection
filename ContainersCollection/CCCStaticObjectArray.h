@@ -8,14 +8,45 @@
 
 #import <Foundation/Foundation.h>
 
-// TODO: various storage policies (assign, weak, strong, copy)
+// TODO: weak storage policy
 // TODO: fast enumeration
-// TODO: subscripting
 // TODO: sorting
 // TODO: optional range checking
 // TODO: unit tests
 // TODO: options for -objectAtIndex: to return either retain/autoreleased or as-is
 // TODO: concurrent block-based enumeration
+// TODO: tests for: subscripting
+// TODO: test for: copy storage policy
+
+
+#pragma mark -
+#pragma mark Typedefs
+
+typedef NS_ENUM(NSInteger, CCCStaticObjectArrayOptions)
+{
+    CCCStaticObjectArrayOptionSetterPolicy,
+    CCCStaticObjectArrayOptionGetterPolicy
+};
+
+
+typedef NS_ENUM(NSInteger, CCCStaticObjectArraySetterPolicy)
+{
+    CCCStaticObjectArraySetterPolicyRetain,
+    CCCStaticObjectArraySetterPolicyAssign,
+    CCCStaticObjectArraySetterPolicyCopy,
+    
+    CCCStaticObjectArraySetterPolicyDefault = CCCStaticObjectArraySetterPolicyRetain
+};
+
+
+typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
+{
+    CCCStaticObjectArrayGetterPolicyRetainAutorlease,
+    CCCStaticObjectArrayGetterPolicyRaw,
+    
+    CCCStaticObjectArrayGetterPolicyDefault = CCCStaticObjectArrayGetterPolicyRetainAutorlease
+};
+
 
 #pragma mark -
 #pragma mark CCCStaticObjectArray interface
@@ -27,11 +58,14 @@
 
 #pragma mark properties
 
-@property (readonly, nonatomic) NSUInteger capacity;
+@property (readonly, nonatomic) NSUInteger   capacity;
+@property (readonly, nonatomic) NSDictionary *options;
 
 
 
 #pragma mark initialization
+
++ (NSDictionary *) defaultOptions;
 
 - (instancetype) initWithCapacity: (NSUInteger)     capacity;
 
@@ -50,6 +84,8 @@
 
 
 #pragma mark getting/setting elements
+
+- (id) objectAtIndexedSubscript: (NSUInteger) index;
 
 - (id) objectAtIndex: (NSUInteger) index;
 

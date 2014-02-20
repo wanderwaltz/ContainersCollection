@@ -15,7 +15,8 @@
 		7CA7659E18B363680047C37E /* libContainersCollection.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7658618B363670047C37E /* libContainersCollection.a */; };
 		7CA765A418B363680047C37E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CA765A218B363680047C37E /* InfoPlist.strings */; };
 		7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B418B364690047C37E /* CCCStaticObjectArray.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		7CA765B818B369480047C37E /* CCCStaticObjectArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B718B369480047C37E /* CCCStaticObjectArrayTests.m */; };
+		7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */; };
+		7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +54,8 @@
 		7CA765A318B363680047C37E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7CA765B318B364690047C37E /* CCCStaticObjectArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCStaticObjectArray.h; sourceTree = "<group>"; };
 		7CA765B418B364690047C37E /* CCCStaticObjectArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray.m; sourceTree = "<group>"; };
-		7CA765B718B369480047C37E /* CCCStaticObjectArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArrayTests.m; sourceTree = "<group>"; };
+		7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArrayTests_ARC.m; sourceTree = "<group>"; };
+		7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray_no_ARC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +156,8 @@
 		7CA7659F18B363680047C37E /* ContainersCollectionTests */ = {
 			isa = PBXGroup;
 			children = (
-				7CA765B718B369480047C37E /* CCCStaticObjectArrayTests.m */,
+				7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */,
+				7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */,
 				7CA765A018B363680047C37E /* Supporting Files */,
 			);
 			path = ContainersCollectionTests;
@@ -268,7 +271,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CA765B818B369480047C37E /* CCCStaticObjectArrayTests.m in Sources */,
+				7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */,
+				7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
