@@ -86,11 +86,13 @@
     
     BOOL stop = NO;
     
-    for (NSUInteger i = 0; i < self.range.length; ++i)
+    for (int64_t i = 0; i < self.range.length; ++i)
     {
-        NSInteger index = self.range.location + i;
+        int64_t index = self.range.location + i;
         
-        block([self objectAtIndex: index], index, &stop);
+        if (index > NSIntegerMax) break;
+        
+        block([self objectAtIndex: (NSInteger)index], (NSInteger)index, &stop);
         
         if (stop)
         {

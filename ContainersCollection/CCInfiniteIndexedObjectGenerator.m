@@ -41,7 +41,7 @@
     
     if (self != nil)
     {
-        
+        self.block = block;
     }
     return self;
 }
@@ -52,13 +52,13 @@
 
 - (id) objectAtIndex: (NSInteger) index
 {
-    
+    return self.block(index);
 }
 
 
 - (id) objectAtIndexedSubscript: (NSInteger) index
 {
-    
+    return [self objectAtIndex: index];
 }
 
 
@@ -68,15 +68,42 @@
 - (void) enumerateObjectsInRange: (CCIndexedGeneratorRange) range
                        withBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block
 {
+    if (block == nil) @throw [[self class] noBlockProvidedException];
     
+    BOOL stop = NO;
+    
+    for (int64_t i = 0; i < range.length; ++i)
+    {
+        int64_t index = range.location + i;
+        
+        if (index > NSIntegerMax) break;
+        
+        block([self objectAtIndex: (NSInteger)index], (NSInteger)index, &stop);
+        
+        if (stop)
+        {
+            break;
+        }
+    }
 }
 
 
 - (void) enumerateObjectsFromIndex: (NSInteger) startingIndex
                          withBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block
 {
-    [self enumerateObjectsInRange: CCMakeRange(startingIndex, )
+    [self enumerateObjectsInRange: CCMakeRange(startingIndex, NSUIntegerMax)
                         withBlock: block];
+}
+
+
+#pragma mark -
+#pragma mark exceptions
+
++ (NSException *) noBlockProvidedException
+{
+    return [NSException exceptionWithName: NSInvalidArgumentException
+                                   reason: @"A non-nil block parameter is expected."
+                                 userInfo: nil];
 }
 
 @end
