@@ -206,7 +206,7 @@ if (firstObject != nil)                             \
     if (self != nil)                                \
     {                                               \
         [self setObject: firstObject atIndex: 0];   \
-        NSUInteger i = 0;                           \
+        NSUInteger i = 1;                           \
         id arg       = nil;                         \
                                                     \
         va_start(args, firstObject);                \
@@ -286,6 +286,31 @@ else                                                \
         if (stop) break;
     }
 }
+
+
+#pragma mark -
+#pragma mark <NSFastEnumeration>
+
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *)  state
+                                   objects: (id __unsafe_unretained []) buffer
+                                     count: (NSUInteger) len
+{
+    // See https://mikeash.com/pyblog/friday-qa-2010-04-16-implementing-fast-enumeration.html
+    
+    // TODO: this probably won't work with weak storage policy
+    if (state->state == 0)
+    {
+        // TODO: properly detect mutation
+        state->mutationsPtr = (unsigned long *)self;
+        state->itemsPtr     = _objects;
+        state->state        = 1;
+        
+        return _capacity;
+    }
+    else
+        return 0;
+}
+
 
 
 #pragma mark -

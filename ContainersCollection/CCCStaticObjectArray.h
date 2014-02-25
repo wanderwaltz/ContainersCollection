@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
 /** A static (non-resizable) C array capable of holding
  *  Objective-C (id) objects.
  */
-@interface CCCStaticObjectArray : NSObject<NSCoding, NSCopying>
+@interface CCCStaticObjectArray : NSObject<NSCoding, NSCopying, NSFastEnumeration>
 
 #pragma mark properties
 

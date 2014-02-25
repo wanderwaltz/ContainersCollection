@@ -178,4 +178,104 @@
 }
 
 
+#pragma mark -
+#pragma mark enumeration tests
+
+#pragma mark <NSFastEnumeration> tests
+
+- (void) test_fastEnumeration_count_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSUInteger count = 0;
+    
+    for (id object in array)
+    {
+        count++;
+    }
+    
+    XCTAssertEqual(count, array.capacity, @"NSFastEnumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_fastEnumeration_count_nonZero_allNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    NSUInteger count = 0;
+    
+    for (id object in array)
+    {
+        count++;
+    }
+    
+    XCTAssertEqual(count, array.capacity, @"NSFastEnumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_fastEnumeration_count_zero
+{
+    CCCStaticObjectArray *array = [CCCStaticObjectArray new];
+    
+    NSUInteger count = 0;
+    
+    for (id object in array)
+    {
+        count++;
+    }
+    
+    XCTAssertEqual(count, array.capacity, @"NSFastEnumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_fastEnumeration_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSMutableArray *mutable = [NSMutableArray new];
+    
+    for (id object in array)
+    {
+        [mutable addObject: object];
+    }
+    
+    XCTAssertEqualObjects(mutable, (@[@1, @2, @3, @4]),
+                          @"NSFastEnumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_fastEnumeration_values_nonZero_allNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    NSUInteger nilCount = 0;
+    NSUInteger    count = 0;
+    
+    for (id object in array)
+    {
+        if (object == nil) nilCount++;
+        count++;
+    }
+    
+    XCTAssertEqual(count, nilCount, @"NSFastEnumeration should enumerate all objects in the array including nil values.");
+}
+
+
+- (void) test_fastEnumeration_break
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    NSUInteger count = 0;
+    
+    for (id object in array)
+    {
+        count++;
+        
+        if (count == 3) break;
+    }
+    
+    XCTAssertEqual(count, 3u, @"NSFastEnumeration should respect the break statement.");
+}
+
+
 @end
