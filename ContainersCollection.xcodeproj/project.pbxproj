@@ -16,6 +16,9 @@
 		7CA765A418B363680047C37E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CA765A218B363680047C37E /* InfoPlist.strings */; };
 		7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B418B364690047C37E /* CCCStaticObjectArray.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */; };
+		7CBDB78318BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */; };
+		7CBDB78518BC4E330068FB64 /* CCIndexedGeneratorTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */; };
+		7CBDB78918BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */; };
 		7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
@@ -55,6 +58,12 @@
 		7CA765B318B364690047C37E /* CCCStaticObjectArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCStaticObjectArray.h; sourceTree = "<group>"; };
 		7CA765B418B364690047C37E /* CCCStaticObjectArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray.m; sourceTree = "<group>"; };
 		7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArrayTests_ARC.m; sourceTree = "<group>"; };
+		7CBDB77E18BC4AE60068FB64 /* CCIndexedGeneratorTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCIndexedGeneratorTypes.h; sourceTree = "<group>"; };
+		7CBDB78118BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFiniteIndexedObjectGenerator.h; sourceTree = "<group>"; };
+		7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCFiniteIndexedObjectGenerator.m; sourceTree = "<group>"; };
+		7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCIndexedGeneratorTypes.m; sourceTree = "<group>"; };
+		7CBDB78718BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInfiniteIndexedObjectGenerator.h; sourceTree = "<group>"; };
+		7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCInfiniteIndexedObjectGenerator.m; sourceTree = "<group>"; };
 		7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray_no_ARC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -92,6 +101,7 @@
 		7C8B802B18B4ACE4009324AE /* public */ = {
 			isa = PBXGroup;
 			children = (
+				7CBDB77818BC4A990068FB64 /* Generators */,
 				7CA765AF18B364240047C37E /* C Static Array */,
 			);
 			name = public;
@@ -181,6 +191,43 @@
 			name = "C Static Array";
 			sourceTree = "<group>";
 		};
+		7CBDB77818BC4A990068FB64 /* Generators */ = {
+			isa = PBXGroup;
+			children = (
+				7CBDB77D18BC4AC50068FB64 /* Indexed Generators */,
+			);
+			name = Generators;
+			sourceTree = "<group>";
+		};
+		7CBDB77918BC4AA50068FB64 /* Finite Indexed Generator */ = {
+			isa = PBXGroup;
+			children = (
+				7CBDB78118BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.h */,
+				7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */,
+			);
+			name = "Finite Indexed Generator";
+			sourceTree = "<group>";
+		};
+		7CBDB77D18BC4AC50068FB64 /* Indexed Generators */ = {
+			isa = PBXGroup;
+			children = (
+				7CBDB77E18BC4AE60068FB64 /* CCIndexedGeneratorTypes.h */,
+				7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */,
+				7CBDB78618BC4EE50068FB64 /* Infinite Indexed Generator */,
+				7CBDB77918BC4AA50068FB64 /* Finite Indexed Generator */,
+			);
+			name = "Indexed Generators";
+			sourceTree = "<group>";
+		};
+		7CBDB78618BC4EE50068FB64 /* Infinite Indexed Generator */ = {
+			isa = PBXGroup;
+			children = (
+				7CBDB78718BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.h */,
+				7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */,
+			);
+			name = "Infinite Indexed Generator";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -263,7 +310,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */,
+				7CBDB78318BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m in Sources */,
+				7CBDB78918BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m in Sources */,
 				7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */,
+				7CBDB78518BC4E330068FB64 /* CCIndexedGeneratorTypes.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

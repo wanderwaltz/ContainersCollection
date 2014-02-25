@@ -17,6 +17,7 @@
 // TODO: concurrent block-based enumeration
 // TODO: tests for: subscripting
 // TODO: test for: copy storage policy
+// TODO: search
 
 
 #pragma mark -
