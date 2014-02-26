@@ -12,7 +12,6 @@
 // TODO: optional range checking
 // TODO: cyclic ranges
 // TODO: search
-// TODO: concurrent block-based enumeration
 
 #pragma mark -
 #pragma mark CCFiniteIndexedObjectGenerator interface
@@ -40,6 +39,8 @@
 
 #pragma mark enumeration
 
-- (void) enumerateObjectsWithBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block;
+- (void) enumerateObjectsUsingBlock:  (void (^)(id object, NSInteger index, BOOL *stop)) block;
+- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
+                          usingBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block;
 
 @end

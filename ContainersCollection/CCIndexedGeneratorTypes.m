@@ -26,3 +26,25 @@ CCIndexedGeneratorRange CCRangeFromNSRange(NSRange nsrange)
     
     return range;
 }
+
+
+CCIndexedGeneratorRange CCNormalizeRange(CCIndexedGeneratorRange range)
+{
+    BOOL uint_overflow = NSUIntegerMax - range.length < range.location;
+    
+    // Detect if we're overflowing the NSUInteger range
+    if (uint_overflow)
+    {
+        range.length = NSUIntegerMax-range.location+1;
+    }
+    
+    // Detect if we're overflowing the NSInteger range
+    NSUInteger right = range.length + range.location;
+    
+    if (right > (NSUInteger)NSIntegerMax)
+    {
+        range.length = NSIntegerMax-range.location+1;
+    }
+    
+    return range;
+}

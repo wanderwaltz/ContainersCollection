@@ -41,13 +41,111 @@
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@0, @1, @2, @3];
     
-    [generator enumerateObjectsWithBlock:
+    [generator enumerateObjectsUsingBlock:
      ^(id object, NSInteger index, BOOL *stop) {
         [enumerated addObject: object];
     }];
     
     XCTAssertEqualObjects(enumerated, expected,
                           @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+}
+
+
+- (void) test_enumeration_zeroOptions
+{
+    CCFiniteIndexedObjectGenerator *generator =
+    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+                                                 block:
+     ^id(NSInteger index) {
+         return @(index);
+     }];
+    
+    NSMutableArray *enumerated = [NSMutableArray new];
+    NSArray        *expected   = @[@0, @1, @2, @3];
+    
+    [generator enumerateObjectsWithOptions: 0
+                                usingBlock:
+     ^(id object, NSInteger index, BOOL *stop) {
+         [enumerated addObject: object];
+     }];
+    
+    XCTAssertEqualObjects(enumerated, expected,
+                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+}
+
+
+- (void) test_enumeration_reverse
+{
+    CCFiniteIndexedObjectGenerator *generator =
+    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+                                                 block:
+     ^id(NSInteger index) {
+         return @(index);
+     }];
+    
+    NSMutableArray *enumerated = [NSMutableArray new];
+    NSArray        *expected   = @[@3, @2, @1, @0];
+    
+    [generator enumerateObjectsWithOptions: NSEnumerationReverse
+                                usingBlock:
+     ^(id object, NSInteger index, BOOL *stop) {
+         [enumerated addObject: object];
+     }];
+    
+    XCTAssertEqualObjects(enumerated, expected,
+                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+}
+
+
+- (void) test_blockEnumeration_concurrent_objects_nonZero_nonNil
+{
+    CCFiniteIndexedObjectGenerator *generator =
+    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+                                                 block:
+     ^id(NSInteger index) {
+         return @(index);
+     }];
+    
+    id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
+    
+    [generator enumerateObjectsWithOptions: NSEnumerationConcurrent
+                            usingBlock:
+     ^(id object, NSInteger index, BOOL *stop) {
+         enumerated[index] = object;
+     }];
+    
+    XCTAssertEqualObjects(enumerated[0], @0, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[1], @1, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[2], @2, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[3], @3, @"Block-based enumeration should enumerate all objects in the array.");
+    
+    free(enumerated);
+}
+
+
+- (void) test_blockEnumeration_concurrent_reverse_objects_nonZero_nonNil
+{
+    CCFiniteIndexedObjectGenerator *generator =
+    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+                                                 block:
+     ^id(NSInteger index) {
+         return @(index);
+     }];
+    
+    id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
+    
+    [generator enumerateObjectsWithOptions: NSEnumerationConcurrent | NSEnumerationReverse
+                            usingBlock:
+     ^(id object, NSInteger index, BOOL *stop) {
+         enumerated[index] = object;
+     }];
+    
+    XCTAssertEqualObjects(enumerated[0], @0, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[1], @1, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[2], @2, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[3], @3, @"Block-based enumeration should enumerate all objects in the array.");
+    
+    free(enumerated);
 }
 
 
@@ -63,7 +161,7 @@
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@(NSIntegerMax-1), @(NSIntegerMax)];
     
-    [generator enumerateObjectsWithBlock:
+    [generator enumerateObjectsUsingBlock:
      ^(id object, NSInteger index, BOOL *stop) {
          [enumerated addObject: object];
      }];

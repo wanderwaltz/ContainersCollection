@@ -80,28 +80,80 @@
 #pragma mark -
 #pragma mark enumeration
 
-- (void) enumerateObjectsWithBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block
+- (void) enumerateObjectsUsingBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block
+{
+    [self enumerateObjectsWithOptions: 0
+                           usingBlock: block];
+}
+
+
+- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
+                          usingBlock: (void (^)(id object, NSInteger index, BOOL *stop)) block
 {
     if (block == nil) @throw [[self class] noBlockProvidedException];
     
-    BOOL stop = NO;
+    CCIndexedGeneratorRange normalizedRange = CCNormalizeRange(self.range);
     
-    // We need to check the integer overflow here, so we can't actually
-    // add a loop variable to self.range.location to get the resulting
-    // index. Instead we have two loop variables and either of them
-    // overflowing the maximum value will result in stopping the loop.
-    NSInteger      index = self.range.location;
-    NSUInteger zeroIndex = 0;
-    
-    for (/*already initialized*/; zeroIndex < self.range.length; ++zeroIndex, ++index)
+    if (options & NSEnumerationConcurrent) // Concurrent enumeration
     {
-        block([self objectAtIndex: index], index, &stop);
+        __block BOOL stop = NO;
         
-        if (index == NSIntegerMax) break;
-        
-        if (stop)
+        if (options & NSEnumerationReverse) // Reverse concurrent enumeration
         {
-            break;
+            dispatch_apply(normalizedRange.length, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^(size_t i) {
+                               if (!stop)
+                               {
+                                   NSInteger index = normalizedRange.location + normalizedRange.length - 1 - i;
+                                   
+                                   block([self objectAtIndex: index], index, &stop);
+                               }
+                           });
+        }
+        else // Forward concurrent enumeration
+        {
+            dispatch_apply(normalizedRange.length, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^(size_t i) {
+                               if (!stop)
+                               {
+                                   NSInteger index = normalizedRange.location + i;
+                                   
+                                   block([self objectAtIndex: index], index, &stop);
+                               }
+                           });
+        }
+    }
+    else // Sequential enumeration
+    {
+        BOOL stop = NO;
+        
+        if (options & NSEnumerationReverse) // Reverse sequential enumeration
+        {
+            for (NSInteger i = normalizedRange.length; i > 0; --i)
+            {
+                NSInteger index = normalizedRange.location + i - 1;
+                
+                block([self objectAtIndex: index], index, &stop);
+                
+                if (stop)
+                {
+                    break;
+                }
+            }
+        }
+        else // Forward sequential enumeration
+        {
+            for (NSInteger i = 0; i < normalizedRange.length; ++i)
+            {
+                NSInteger index = normalizedRange.location + i;
+                
+                block([self objectAtIndex: index], index, &stop);
+                
+                if (stop)
+                {
+                    break;
+                }
+            }
         }
     }
 }
