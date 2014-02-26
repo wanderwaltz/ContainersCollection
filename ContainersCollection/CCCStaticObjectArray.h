@@ -15,7 +15,6 @@
 // TODO: optional cyclic ranges
 // TODO: unit tests
 // TODO: options for -objectAtIndex: to return either retain/autoreleased or as-is
-// TODO: concurrent block-based enumeration
 // TODO: tests for: subscripting
 // TODO: test for: copy storage policy
 // TODO: search
@@ -102,6 +101,9 @@ atIndexedSubscript: (NSUInteger) index;
 #pragma mark enumeration
 
 - (void) enumerateObjectsUsingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block;
+
+- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
+                          usingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block;
 
 
 @end

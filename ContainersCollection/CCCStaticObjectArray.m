@@ -288,12 +288,60 @@ atIndexedSubscript: (NSUInteger) index
 
 - (void) enumerateObjectsUsingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block
 {
-    BOOL stop = NO;
+    [self enumerateObjectsWithOptions: 0 usingBlock: block];
+}
+
+
+- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
+                          usingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block
+{
+    if (_capacity == 0) return;
     
-    for (NSUInteger i = 0; i < _capacity; ++i)
+    if (options & NSEnumerationConcurrent) // Concurrent enumeration
     {
-        block([self objectAtIndex: i], i, &stop);
-        if (stop) break;
+        __block BOOL stop = NO;
+        
+        if (options & NSEnumerationReverse) // Reverse concurrent enumeration
+        {
+            dispatch_apply(_capacity, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^(size_t i) {
+                               if (!stop)
+                               {
+                                   block([self objectAtIndex: _capacity-i-1], _capacity-i-1, &stop);
+                               }
+                           });
+        }
+        else // Forward concurrent enumeration
+        {
+            dispatch_apply(_capacity, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
+                           ^(size_t i) {
+                               if (!stop)
+                               {
+                                   block([self objectAtIndex: i], i, &stop);
+                               }
+                           });
+        }
+    }
+    else // Sequential enumeration
+    {
+        BOOL stop = NO;
+        
+        if (options & NSEnumerationReverse) // Reverse sequential enumeration
+        {
+            for (NSUInteger i = _capacity; i > 0; --i)
+            {
+                block([self objectAtIndex: i-1], i-1, &stop);
+                if (stop) break;
+            }
+        }
+        else // Forward sequential enumeration
+        {
+            for (NSUInteger i = 0; i < _capacity; ++i)
+            {
+                block([self objectAtIndex: i], i, &stop);
+                if (stop) break;
+            }
+        }
     }
 }
 
@@ -310,7 +358,6 @@ atIndexedSubscript: (NSUInteger) index
     // TODO: this probably won't work with weak storage policy
     if (state->state == 0)
     {
-        // TODO: properly detect mutation
         state->mutationsPtr = &_mutationFlag;
         state->itemsPtr     = _objects;
         state->state        = 1;

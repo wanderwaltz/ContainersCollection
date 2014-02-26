@@ -181,6 +181,118 @@
 #pragma mark -
 #pragma mark enumeration tests
 
+#pragma block-based enumeration tests
+
+- (void) test_blockEnumeration_basic_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSMutableArray *mutable = [NSMutableArray new];
+    
+    [array enumerateObjectsUsingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         [mutable addObject: object];
+    }];
+    
+    XCTAssertEqualObjects(mutable, (@[@1, @2, @3, @4]),
+                          @"Block-based enumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_blockEnumeration_noOptions_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSMutableArray *mutable = [NSMutableArray new];
+    
+    [array enumerateObjectsWithOptions: 0
+                            usingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         [mutable addObject: object];
+     }];
+    
+    XCTAssertEqualObjects(mutable, (@[@1, @2, @3, @4]),
+                          @"Block-based enumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_blockEnumeration_sequential_stop
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSMutableArray *mutable = [NSMutableArray new];
+    
+    [array enumerateObjectsWithOptions: 0
+                            usingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         [mutable addObject: object];
+         *stop = YES;
+     }];
+    
+    XCTAssertEqualObjects(mutable, (@[@1]),
+                          @"Block-based enumeration should stop after setting *stop = YES.");
+}
+
+
+- (void) test_blockEnumeration_reverse_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    NSMutableArray *mutable = [NSMutableArray new];
+    
+    [array enumerateObjectsWithOptions: NSEnumerationReverse
+                            usingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         [mutable addObject: object];
+     }];
+    
+    XCTAssertEqualObjects(mutable, (@[@4, @3, @2, @1]),
+                          @"Block-based enumeration should enumerate all objects in the array.");
+}
+
+
+- (void) test_blockEnumeration_concurrent_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
+    
+    [array enumerateObjectsWithOptions: NSEnumerationConcurrent
+                            usingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         enumerated[index] = object;
+     }];
+    
+    XCTAssertEqualObjects(enumerated[0], @1, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[1], @2, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[2], @3, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[3], @4, @"Block-based enumeration should enumerate all objects in the array.");
+    
+    free(enumerated);
+}
+
+
+- (void) test_blockEnumeration_concurrent_reverse_objects_nonZero_nonNil
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, @4, nil];
+    
+    id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
+    
+    [array enumerateObjectsWithOptions: NSEnumerationConcurrent | NSEnumerationReverse
+                            usingBlock:
+     ^(id object, NSUInteger index, BOOL *stop) {
+         enumerated[index] = object;
+     }];
+    
+    XCTAssertEqualObjects(enumerated[0], @1, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[1], @2, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[2], @3, @"Block-based enumeration should enumerate all objects in the array.");
+    XCTAssertEqualObjects(enumerated[3], @4, @"Block-based enumeration should enumerate all objects in the array.");
+    
+    free(enumerated);
+}
+
+
 #pragma mark <NSFastEnumeration> tests
 
 - (void) test_fastEnumeration_count_nonZero_nonNil
