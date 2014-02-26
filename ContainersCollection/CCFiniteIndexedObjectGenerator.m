@@ -17,6 +17,11 @@
 #pragma mark CCFiniteIndexedObjectGenerator private
 
 @interface CCFiniteIndexedObjectGenerator()
+{
+@private
+    __unsafe_unretained id _enumeratedObject;
+}
+
 @property (copy, nonatomic) CCIndexedObjectGeneratorBlock block;
 @end
 
@@ -86,13 +91,18 @@
     
     BOOL stop = NO;
     
-    for (int64_t i = 0; i < self.range.length; ++i)
+    // We need to check the integer overflow here, so we can't actually
+    // add a loop variable to self.range.location to get the resulting
+    // index. Instead we have two loop variables and either of them
+    // overflowing the maximum value will result in stopping the loop.
+    NSInteger      index = self.range.location;
+    NSUInteger zeroIndex = 0;
+    
+    for (/*already initialized*/; zeroIndex < self.range.length; ++zeroIndex, ++index)
     {
-        int64_t index = self.range.location + i;
+        block([self objectAtIndex: index], index, &stop);
         
-        if (index > NSIntegerMax) break;
-        
-        block([self objectAtIndex: (NSInteger)index], (NSInteger)index, &stop);
+        if (index == NSIntegerMax) break;
         
         if (stop)
         {
@@ -100,6 +110,68 @@
         }
     }
 }
+
+
+#pragma mark -
+#pragma mark <NSFastEnumeration>
+
+typedef struct
+{
+    NSInteger      index;
+    NSUInteger zeroIndex;
+} _CCFiniteIndexedObjectGeneratorEnumerationState;
+
+- (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *)  state
+                                   objects: (id __unsafe_unretained []) buffer
+                                     count: (NSUInteger) len
+{
+    // See https://mikeash.com/pyblog/friday-qa-2010-04-16-implementing-fast-enumeration.html
+    
+    if (state->state == 0)
+    {
+        // This should detect block change, but we cannot detect
+        // the case when values returned from the block for the same
+        // index would be different.
+        state->mutationsPtr = (__bridge void *)self.block;
+        
+        _CCFiniteIndexedObjectGeneratorEnumerationState     initialState = { self.range.location, 0 };
+        *(_CCFiniteIndexedObjectGeneratorEnumerationState *)state->extra = initialState;
+        state->state = 1;
+    }
+    else if (state->state == 2)
+    {
+        return 0;
+    }
+    
+    
+    _CCFiniteIndexedObjectGeneratorEnumerationState enumState =
+    *(_CCFiniteIndexedObjectGeneratorEnumerationState *)state->extra;
+
+    _enumeratedObject = [self objectAtIndex: enumState.index];
+    state->itemsPtr   = &_enumeratedObject;
+    
+    if ((enumState.index <= NSIntegerMax) && (enumState.zeroIndex < self.range.length))
+    {
+        if (enumState.index < NSIntegerMax)
+        {
+            enumState.index     ++;
+            enumState.zeroIndex ++;
+        }
+        else
+        {
+            enumState.zeroIndex = self.range.length;
+        }
+        
+        *(_CCFiniteIndexedObjectGeneratorEnumerationState *)state->extra = enumState;
+        
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 
 
 #pragma mark -

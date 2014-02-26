@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CCIndexedGeneratorTypes.h"
 
-// TODO: fast enumeration
 // TODO: optional range checking
 // TODO: cyclic ranges
 // TODO: search
@@ -18,7 +17,8 @@
 #pragma mark -
 #pragma mark CCFiniteIndexedObjectGenerator interface
 
-@interface CCFiniteIndexedObjectGenerator : NSObject
+@interface CCFiniteIndexedObjectGenerator : NSObject<NSFastEnumeration>
+
 @property (readonly, nonatomic) CCIndexedGeneratorRange range;
 @property (readonly, nonatomic) NSUInteger              count;
 

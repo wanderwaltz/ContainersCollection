@@ -8,16 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+// TODO: detecting mutation in fast enumeration
 // TODO: weak storage policy
-// TODO: fast enumeration
+// TODO: fast enumeration for weak storage policy
 // TODO: sorting
 // TODO: optional range checking
+// TODO: optional cyclic ranges
 // TODO: unit tests
 // TODO: options for -objectAtIndex: to return either retain/autoreleased or as-is
 // TODO: concurrent block-based enumeration
 // TODO: tests for: subscripting
 // TODO: test for: copy storage policy
 // TODO: search
+// TODO: NSCoding
+// TODO: NSCopying
 
 
 #pragma mark -

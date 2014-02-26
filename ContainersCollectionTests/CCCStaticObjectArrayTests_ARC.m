@@ -44,7 +44,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] init];
     
-    XCTAssertEqual(array.capacity, 0u,
+    XCTAssertEqual(array.capacity, (NSUInteger)0,
                    @"CCCStaticObjectArray returned by -init should have zero capacity");
 }
 
@@ -72,7 +72,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 123];
     
-    XCTAssertEqual(array.capacity, 123u,
+    XCTAssertEqual(array.capacity, (NSUInteger)123,
                    @"CCCStaticObjectArray returned by -initWithCapacity: should have the "
                    @"corresponding capacity value.");
 }
@@ -103,7 +103,7 @@
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 123
                                                                          options: nil];
     
-    XCTAssertEqual(array.capacity, 123u,
+    XCTAssertEqual(array.capacity, (NSUInteger)123,
                    @"CCCStaticObjectArray returned by -initWithCapacity:options: should have the "
                    @"corresponding capacity value.");
 }
@@ -123,7 +123,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: @1, @2, @3, nil];
     
-    XCTAssertEqual(array.capacity, 3u,
+    XCTAssertEqual(array.capacity, (NSUInteger)3,
                    @"CCCStaticObjectArray returned by -initWithObjects: should have the "
                    @"corresponding capacity value.");
 }
@@ -133,7 +133,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithObjects: nil];
     
-    XCTAssertEqual(array.capacity, 0u,
+    XCTAssertEqual(array.capacity, (NSUInteger)0,
                    @"CCCStaticObjectArray returned by -initWithObjects: should have the "
                    @"corresponding capacity value.");
 }
@@ -162,7 +162,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithOptions: nil objects: @1, @2, @3, nil];
     
-    XCTAssertEqual(array.capacity, 3u,
+    XCTAssertEqual(array.capacity, (NSUInteger)3,
                    @"CCCStaticObjectArray returned by -initWithObjects: should have the "
                    @"corresponding capacity value.");
 }
@@ -172,7 +172,7 @@
 {
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithOptions: nil objects: nil];
     
-    XCTAssertEqual(array.capacity, 0u,
+    XCTAssertEqual(array.capacity, (NSUInteger)0,
                    @"CCCStaticObjectArray returned by -initWithOptions:objects: should have the "
                    @"corresponding capacity value.");
 }
@@ -274,7 +274,7 @@
         if (count == 3) break;
     }
     
-    XCTAssertEqual(count, 3u, @"NSFastEnumeration should respect the break statement.");
+    XCTAssertEqual(count, (NSUInteger)3, @"NSFastEnumeration should respect the break statement.");
 }
 
 
