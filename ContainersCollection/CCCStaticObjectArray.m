@@ -14,7 +14,6 @@
 #import "CCCAccessors.h"
 
 
-
 #pragma mark -
 #pragma mark Static helper functions
 
@@ -80,6 +79,8 @@ static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArr
     
     CCCGetterPtr _getter;
     CCCSetterPtr _setter;
+    
+    unsigned long _mutationFlag;
 }
 
 @end
@@ -266,10 +267,19 @@ else                                                \
 
 
 - (void) setObject: (id)         object
+atIndexedSubscript: (NSUInteger) index
+{
+    [self setObject: object
+            atIndex: index];
+}
+
+
+- (void) setObject: (id)         object
            atIndex: (NSUInteger) index
 {
     NSAssert(_setter != nil, @"Setter policy is not set!");
     _setter(_objects+index, object);
+    _mutationFlag = clock();
 }
 
 
@@ -301,7 +311,7 @@ else                                                \
     if (state->state == 0)
     {
         // TODO: properly detect mutation
-        state->mutationsPtr = (unsigned long *)self;
+        state->mutationsPtr = &_mutationFlag;
         state->itemsPtr     = _objects;
         state->state        = 1;
         

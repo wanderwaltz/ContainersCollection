@@ -278,4 +278,95 @@
 }
 
 
+- (void) test_fastEnumeration_concurrent
+{
+    __block BOOL done1 = NO;
+    __block BOOL done2 = NO;
+    
+    NSMutableArray *enumerated1 = [NSMutableArray new];
+    NSMutableArray *enumerated2 = [NSMutableArray new];
+    NSArray        *expected    = @[ @0,  @1,  @2,  @3,
+                                     @4,  @5,  @6,  @7,
+                                     @8,  @9, @10, @11,
+                                    @12, @13, @14, @15];
+    
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithArray: expected];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (id object in array)
+        {
+            [enumerated1 addObject: object];
+        }
+        
+        done1 = YES;
+    });
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (id object in array)
+        {
+            [enumerated2 addObject: object];
+        }
+        
+        done2 = YES;
+    });
+    
+    while (!done1 || !done2) {}
+    
+    XCTAssertEqualObjects(enumerated1, expected,
+                          @"CCCStaticObjectArray should allow concurrent fast enumeration.");
+    XCTAssertEqualObjects(enumerated2, expected,
+                          @"CCCStaticObjectArray should allow concurrent fast enumeration.");
+}
+
+
+- (void) test_fastEnumeration_mutate_single
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    XCTAssertThrows({
+        for (id object in array)
+        {
+            array[0] = @1;
+        }
+    },
+                    @"Mutating CCCStaticObjectArray while fast enumeration is in progress "
+                    @"should throw an  exception.");
+}
+
+
+- (void) test_fastEnumeration_mutate2
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    XCTAssertThrows({
+        for (id object in array)
+        {
+            array[0] = @1;
+            array[1] = @2;
+        }
+    },
+                    
+                    @"Mutating CCCStaticObjectArray while fast enumeration is in progress "
+                    @"should throw an exception.");
+}
+
+
+- (void) test_fastEnumeration_mutate3
+{
+    CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
+    
+    XCTAssertThrows({
+        
+        array[0] = @1;
+        for (id object in array)
+        {
+            array[1] = @2;
+        }
+    },
+                    
+                    @"Mutating CCCStaticObjectArray while fast enumeration is in progress "
+                    @"should throw an exception.");
+}
+
+
 @end

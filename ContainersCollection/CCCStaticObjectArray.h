@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-// TODO: detecting mutation in fast enumeration
 // TODO: weak storage policy
 // TODO: fast enumeration for weak storage policy
 // TODO: sorting
@@ -91,9 +90,11 @@ typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
 #pragma mark getting/setting elements
 
 - (id) objectAtIndexedSubscript: (NSUInteger) index;
+- (id) objectAtIndex:            (NSUInteger) index;
 
-- (id) objectAtIndex: (NSUInteger) index;
 
+- (void) setObject: (id)         object
+atIndexedSubscript: (NSUInteger) index;
 - (void) setObject: (id)         object
            atIndex: (NSUInteger) index;
 

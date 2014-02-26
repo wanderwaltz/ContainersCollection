@@ -17,11 +17,6 @@
 #pragma mark CCFiniteIndexedObjectGenerator private
 
 @interface CCFiniteIndexedObjectGenerator()
-{
-@private
-    __unsafe_unretained id _enumeratedObject;
-}
-
 @property (copy, nonatomic) CCIndexedObjectGeneratorBlock block;
 @end
 
@@ -119,6 +114,7 @@ typedef struct
 {
     NSInteger      index;
     NSUInteger zeroIndex;
+    __unsafe_unretained id object;
 } _CCFiniteIndexedObjectGeneratorEnumerationState;
 
 - (NSUInteger) countByEnumeratingWithState: (NSFastEnumerationState *)  state
@@ -134,7 +130,7 @@ typedef struct
         // index would be different.
         state->mutationsPtr = (__bridge void *)self.block;
         
-        _CCFiniteIndexedObjectGeneratorEnumerationState     initialState = { self.range.location, 0 };
+        _CCFiniteIndexedObjectGeneratorEnumerationState     initialState = { self.range.location, 0, nil };
         *(_CCFiniteIndexedObjectGeneratorEnumerationState *)state->extra = initialState;
         state->state = 1;
     }
@@ -147,8 +143,8 @@ typedef struct
     _CCFiniteIndexedObjectGeneratorEnumerationState enumState =
     *(_CCFiniteIndexedObjectGeneratorEnumerationState *)state->extra;
 
-    _enumeratedObject = [self objectAtIndex: enumState.index];
-    state->itemsPtr   = &_enumeratedObject;
+    enumState.object = [self objectAtIndex: enumState.index];
+    state->itemsPtr  = &enumState.object;
     
     if ((enumState.index <= NSIntegerMax) && (enumState.zeroIndex < self.range.length))
     {
