@@ -68,42 +68,40 @@ typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
 
 #pragma mark initialization
 
-+ (NSDictionary *) defaultOptions;
++ (NSDictionary *)defaultOptions;
 
-- (instancetype) initWithCapacity: (NSUInteger)     capacity;
+- (instancetype)initWithCapacity:(NSUInteger)capacity;
 
 /// Designated initializer
-- (instancetype) initWithCapacity: (NSUInteger)     capacity
-                          options: (NSDictionary *) options;
+- (instancetype)initWithCapacity:(NSUInteger)capacity
+                    options:(NSDictionary *)options;
 
-- (instancetype) initWithArray: (NSArray *) array;
-- (instancetype) initWithArray: (NSArray *) array
-                       options: (NSDictionary *) options;
+- (instancetype)initWithArray:(NSArray *)array;
+- (instancetype)initWithArray:(NSArray *)array
+                    options:(NSDictionary *)options;
 
-- (instancetype) initWithObjects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION;
-- (instancetype) initWithOptions: (NSDictionary *) options
-                         objects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION;
+- (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
+- (instancetype)initWithOptions:(NSDictionary *)options
+                    objects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
 
 
 
 #pragma mark getting/setting elements
 
-- (id) objectAtIndexedSubscript: (NSUInteger) index;
-- (id) objectAtIndex:            (NSUInteger) index;
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (id)objectAtIndex:(NSUInteger)index;
 
 
-- (void) setObject: (id)         object
-atIndexedSubscript: (NSUInteger) index;
-- (void) setObject: (id)         object
-           atIndex: (NSUInteger) index;
+- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index;
+- (void)setObject:(id)object atIndex:(NSUInteger)index;
 
 
 #pragma mark enumeration
 
-- (void) enumerateObjectsUsingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block;
+- (void)enumerateObjectsUsingBlock:(void (^)(id object, NSUInteger index, BOOL *stop))block;
 
-- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
-                          usingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block;
+- (void)enumerateObjectsWithOptions:(NSEnumerationOptions) options
+            usingBlock:(void (^)(id object, NSUInteger index, BOOL *stop))block;
 
 
 @end
