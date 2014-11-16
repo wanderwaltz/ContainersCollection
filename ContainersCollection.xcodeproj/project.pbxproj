@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D056C8C1A18F2B00083F693 /* CCIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D056C8B1A18F2B00083F693 /* CCIndexedObjectGenerator.m */; };
 		7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B802E18B4AD0C009324AE /* CCCAccessors.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7CA7658A18B363670047C37E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7658918B363670047C37E /* Foundation.framework */; };
 		7CA7659818B363680047C37E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7659718B363680047C37E /* XCTest.framework */; };
@@ -16,10 +17,8 @@
 		7CA765A418B363680047C37E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CA765A218B363680047C37E /* InfoPlist.strings */; };
 		7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B418B364690047C37E /* CCCStaticObjectArray.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */; };
-		7CB034FD18BDD9E000BE3DB5 /* CCFiniteIndexedObjectGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB034FC18BDD9E000BE3DB5 /* CCFiniteIndexedObjectGeneratorTests.m */; };
-		7CBDB78318BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */; };
+		7CB034FD18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CB034FC18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m */; };
 		7CBDB78518BC4E330068FB64 /* CCIndexedGeneratorTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */; };
-		7CBDB78918BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */; };
 		7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
@@ -46,6 +45,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5D056C8A1A18F2B00083F693 /* CCIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCIndexedObjectGenerator.h; sourceTree = "<group>"; };
+		5D056C8B1A18F2B00083F693 /* CCIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCIndexedObjectGenerator.m; sourceTree = "<group>"; };
 		7C8B802D18B4AD0C009324AE /* CCCAccessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCAccessors.h; sourceTree = "<group>"; };
 		7C8B802E18B4AD0C009324AE /* CCCAccessors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCAccessors.m; sourceTree = "<group>"; };
 		7CA7658618B363670047C37E /* libContainersCollection.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libContainersCollection.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,13 +60,9 @@
 		7CA765B318B364690047C37E /* CCCStaticObjectArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCStaticObjectArray.h; sourceTree = "<group>"; };
 		7CA765B418B364690047C37E /* CCCStaticObjectArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray.m; sourceTree = "<group>"; };
 		7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArrayTests_ARC.m; sourceTree = "<group>"; };
-		7CB034FC18BDD9E000BE3DB5 /* CCFiniteIndexedObjectGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCFiniteIndexedObjectGeneratorTests.m; sourceTree = "<group>"; };
+		7CB034FC18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCIndexedObjectGeneratorTests.m; sourceTree = "<group>"; };
 		7CBDB77E18BC4AE60068FB64 /* CCIndexedGeneratorTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCIndexedGeneratorTypes.h; sourceTree = "<group>"; };
-		7CBDB78118BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCFiniteIndexedObjectGenerator.h; sourceTree = "<group>"; };
-		7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCFiniteIndexedObjectGenerator.m; sourceTree = "<group>"; };
 		7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCIndexedGeneratorTypes.m; sourceTree = "<group>"; };
-		7CBDB78718BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCInfiniteIndexedObjectGenerator.h; sourceTree = "<group>"; };
-		7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCInfiniteIndexedObjectGenerator.m; sourceTree = "<group>"; };
 		7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCStaticObjectArray_no_ARC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,7 +165,7 @@
 		7CA7659F18B363680047C37E /* ContainersCollectionTests */ = {
 			isa = PBXGroup;
 			children = (
-				7CB034FC18BDD9E000BE3DB5 /* CCFiniteIndexedObjectGeneratorTests.m */,
+				7CB034FC18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m */,
 				7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */,
 				7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */,
 				7CA765A018B363680047C37E /* Supporting Files */,
@@ -202,33 +199,15 @@
 			name = Generators;
 			sourceTree = "<group>";
 		};
-		7CBDB77918BC4AA50068FB64 /* Finite Indexed Generator */ = {
-			isa = PBXGroup;
-			children = (
-				7CBDB78118BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.h */,
-				7CBDB78218BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m */,
-			);
-			name = "Finite Indexed Generator";
-			sourceTree = "<group>";
-		};
 		7CBDB77D18BC4AC50068FB64 /* Indexed Generators */ = {
 			isa = PBXGroup;
 			children = (
 				7CBDB77E18BC4AE60068FB64 /* CCIndexedGeneratorTypes.h */,
 				7CBDB78418BC4E330068FB64 /* CCIndexedGeneratorTypes.m */,
-				7CBDB78618BC4EE50068FB64 /* Infinite Indexed Generator */,
-				7CBDB77918BC4AA50068FB64 /* Finite Indexed Generator */,
+				5D056C8A1A18F2B00083F693 /* CCIndexedObjectGenerator.h */,
+				5D056C8B1A18F2B00083F693 /* CCIndexedObjectGenerator.m */,
 			);
 			name = "Indexed Generators";
-			sourceTree = "<group>";
-		};
-		7CBDB78618BC4EE50068FB64 /* Infinite Indexed Generator */ = {
-			isa = PBXGroup;
-			children = (
-				7CBDB78718BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.h */,
-				7CBDB78818BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m */,
-			);
-			name = "Infinite Indexed Generator";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,8 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */,
-				7CBDB78318BC4B320068FB64 /* CCFiniteIndexedObjectGenerator.m in Sources */,
-				7CBDB78918BC4F0E0068FB64 /* CCInfiniteIndexedObjectGenerator.m in Sources */,
+				5D056C8C1A18F2B00083F693 /* CCIndexedObjectGenerator.m in Sources */,
 				7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */,
 				7CBDB78518BC4E330068FB64 /* CCIndexedGeneratorTypes.m in Sources */,
 			);
@@ -324,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7CB034FD18BDD9E000BE3DB5 /* CCFiniteIndexedObjectGeneratorTests.m in Sources */,
+				7CB034FD18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m in Sources */,
 				7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */,
 				7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */,
 			);

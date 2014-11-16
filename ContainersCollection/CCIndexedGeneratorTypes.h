@@ -27,5 +27,7 @@ typedef id (^CCIndexedObjectGeneratorBlock)(NSInteger index);
 CCIndexedGeneratorRange CCMakeRange(NSInteger location, NSUInteger length) __attribute__((pure));
 CCIndexedGeneratorRange CCRangeFromNSRange(NSRange range)                  __attribute__((pure));
 
+NSInteger CCRangeMaxValue(CCIndexedGeneratorRange range) __attribute__((pure));
+
 // TODO: add tests
 CCIndexedGeneratorRange CCNormalizeRange(CCIndexedGeneratorRange range)    __attribute__((pure));

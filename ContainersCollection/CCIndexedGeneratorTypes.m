@@ -28,6 +28,13 @@ CCIndexedGeneratorRange CCRangeFromNSRange(NSRange nsrange)
 }
 
 
+NSInteger CCRangeMaxValue(CCIndexedGeneratorRange range)
+{
+    CCIndexedGeneratorRange normalizedRange = CCNormalizeRange(range);
+    return normalizedRange.location+normalizedRange.length-1;
+}
+
+
 CCIndexedGeneratorRange CCNormalizeRange(CCIndexedGeneratorRange range)
 {
     BOOL uint_overflow = NSUIntegerMax - range.length < range.location;

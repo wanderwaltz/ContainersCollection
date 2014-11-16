@@ -11,32 +11,31 @@
 #endif
 
 #import <XCTest/XCTest.h>
-#import "CCFiniteIndexedObjectGenerator.h"
+#import "CCIndexedObjectGenerator.h"
 
 
 #pragma mark -
-#pragma mark CCFiniteIndexedObjectGeneratorTests interface
+#pragma mark CCIndexedObjectGeneratorTests interface
 
-@interface CCFiniteIndexedObjectGeneratorTests : XCTestCase
+@interface CCIndexedObjectGeneratorTests : XCTestCase
 @end
 
 
 #pragma mark -
-#pragma mark CCFiniteIndexedObjectGeneratorTests implementation
+#pragma mark CCIndexedObjectGeneratorTests implementation
 
-@implementation CCFiniteIndexedObjectGeneratorTests
+@implementation CCIndexedObjectGeneratorTests
 
 #pragma mark -
 #pragma mark enumeration tests
 
 - (void) test_enumeration
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@0, @1, @2, @3];
@@ -53,12 +52,11 @@
 
 - (void) test_enumeration_zeroOptions
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@0, @1, @2, @3];
@@ -76,12 +74,11 @@
 
 - (void) test_enumeration_reverse
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@3, @2, @1, @0];
@@ -99,12 +96,11 @@
 
 - (void) test_blockEnumeration_concurrent_objects_nonZero_nonNil
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
     
@@ -125,12 +121,11 @@
 
 - (void) test_blockEnumeration_concurrent_reverse_objects_nonZero_nonNil
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     id __unsafe_unretained *enumerated = (id __unsafe_unretained *)malloc(sizeof(id)*4);
     
@@ -151,12 +146,11 @@
 
 - (void) test_enumeration_overflow
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@(NSIntegerMax-1), @(NSIntegerMax)];
@@ -175,12 +169,11 @@
 
 - (void) test_fastEnumeration_positive
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 7)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 7)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@0, @1, @2, @3, @4, @5, @6];
@@ -197,12 +190,11 @@
 
 - (void) test_fastEnumeration_negative
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(-3, 7)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(-3, 7)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@-3, @-2, @-1, @0, @1, @2, @3];
@@ -219,12 +211,11 @@
 
 - (void) test_fastEnumeration_overflow
 {
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated = [NSMutableArray new];
     NSArray        *expected   = @[@(NSIntegerMax-1), @(NSIntegerMax)];
@@ -246,12 +237,11 @@
     __block BOOL done1 = NO;
     __block BOOL done2 = NO;
     
-    CCFiniteIndexedObjectGenerator *generator =
-    [CCFiniteIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 16)
-                                                 block:
-     ^id(NSInteger index) {
-         return @(index);
-     }];
+    CCIndexedObjectGenerator *generator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 16)
+            block: ^id(NSInteger index) {
+                return @(index);
+            }];
     
     NSMutableArray *enumerated1 = [NSMutableArray new];
     NSMutableArray *enumerated2 = [NSMutableArray new];
