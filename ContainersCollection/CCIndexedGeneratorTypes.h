@@ -24,8 +24,8 @@ typedef id (^CCIndexedObjectGeneratorBlock)(NSInteger index);
 #pragma mark -
 #pragma mark Functions
 
-CCIndexedGeneratorRange CCMakeRange(NSInteger location, NSUInteger length) __attribute__((const));
-CCIndexedGeneratorRange CCRangeFromNSRange(NSRange range)                  __attribute__((const));
+CCIndexedGeneratorRange CCMakeRange(NSInteger location, NSUInteger length) __attribute__((pure));
+CCIndexedGeneratorRange CCRangeFromNSRange(NSRange range)                  __attribute__((pure));
 
 // TODO: add tests
-CCIndexedGeneratorRange CCNormalizeRange(CCIndexedGeneratorRange range)    __attribute__((const));
+CCIndexedGeneratorRange CCNormalizeRange(CCIndexedGeneratorRange range)    __attribute__((pure));
