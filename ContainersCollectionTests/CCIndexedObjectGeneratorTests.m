@@ -29,7 +29,7 @@
 #pragma mark -
 #pragma mark enumeration tests
 
-- (void) test_enumeration
+- (void)test_enumeration
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
@@ -46,11 +46,11 @@
     }];
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+                          @"Enumerating CCIndexedObjectGenerator should yield all values in range.");
 }
 
 
-- (void) test_enumeration_zeroOptions
+- (void)test_enumeration_zeroOptions
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
@@ -68,11 +68,11 @@
      }];
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+                          @"Enumerating CCIndexedObjectGenerator should yield all values in range.");
 }
 
 
-- (void) test_enumeration_reverse
+- (void)test_enumeration_reverse
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
@@ -90,11 +90,11 @@
      }];
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+                          @"Enumerating CCIndexedObjectGenerator should yield all values in range.");
 }
 
 
-- (void) test_blockEnumeration_concurrent_objects_nonZero_nonNil
+- (void)test_blockEnumeration_concurrent_objects_nonZero_nonNil
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
@@ -119,7 +119,7 @@
 }
 
 
-- (void) test_blockEnumeration_concurrent_reverse_objects_nonZero_nonNil
+- (void)test_blockEnumeration_concurrent_reverse_objects_nonZero_nonNil
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
@@ -144,7 +144,7 @@
 }
 
 
-- (void) test_enumeration_overflow
+- (void)test_enumeration_overflow
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
@@ -161,13 +161,13 @@
      }];
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should "
+                          @"Enumerating CCIndexedObjectGenerator should "
                           @"stop upon encountering NSIntegerMax even when the range "
                           @"exceeds that.");
 }
 
 
-- (void) test_fastEnumeration_positive
+- (void)test_fastEnumeration_positive
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 7)
@@ -184,11 +184,11 @@
     }
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+                          @"Enumerating CCIndexedObjectGenerator should yield all values in range.");
 }
 
 
-- (void) test_fastEnumeration_negative
+- (void)test_fastEnumeration_negative
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(-3, 7)
@@ -205,11 +205,11 @@
     }
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should yield all values in range.");
+                          @"Enumerating CCIndexedObjectGenerator should yield all values in range.");
 }
 
 
-- (void) test_fastEnumeration_overflow
+- (void)test_fastEnumeration_overflow
 {
     CCIndexedObjectGenerator *generator =
         [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(NSIntegerMax-1, 7)
@@ -226,13 +226,13 @@
     }
     
     XCTAssertEqualObjects(enumerated, expected,
-                          @"Enumerating CCFiniteIndexedObjectGenerator should "
+                          @"Enumerating CCIndexedObjectGenerator should "
                           @"stop upon encountering NSIntegerMax even when the range "
                           @"exceeds that.");
 }
 
 
-- (void) test_fastEnumeration_concurrent
+- (void)test_fastEnumeration_concurrent
 {
     __block BOOL done1 = NO;
     __block BOOL done2 = NO;
@@ -271,9 +271,32 @@
     while (!done1 || !done2) {}
     
     XCTAssertEqualObjects(enumerated1, expected,
-                          @"CCFiniteIndexedObjectGenerator should allow concurrent fast enumeration.");
+                          @"CCIndexedObjectGenerator should allow concurrent fast enumeration.");
     XCTAssertEqualObjects(enumerated2, expected,
-                          @"CCFiniteIndexedObjectGenerator should allow concurrent fast enumeration.");
+                          @"CCIndexedObjectGenerator should allow concurrent fast enumeration.");
+}
+
+
+#pragma mark - NSArray cluster tests
+
+- (void)test_is_NSArray
+{
+    XCTAssertTrue([CCIndexedObjectGenerator isSubclassOfClass: [NSArray class]]);
+}
+
+
+- (void)test_NSArray_methods_work
+{
+    CCIndexedObjectGenerator *stringGenerator =
+        [CCIndexedObjectGenerator generatorWithRange: CCMakeRange(0, 4)
+            block:^id(NSInteger index) {
+                return @(index).description;
+            }];
+    
+    NSString *joined = [stringGenerator componentsJoinedByString: @" "];
+    NSString *expected = @"0 1 2 3";
+    
+    XCTAssertEqualObjects(joined, expected, @"CCIndexedObjectGenerator should properly handle NSArray method calls");
 }
 
 @end
