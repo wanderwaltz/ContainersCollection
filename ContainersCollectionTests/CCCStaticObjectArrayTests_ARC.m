@@ -301,7 +301,7 @@
     
     NSUInteger count = 0;
     
-    for (id object in array)
+    for (__unused id object in array)
     {
         count++;
     }
@@ -316,7 +316,7 @@
     
     NSUInteger count = 0;
     
-    for (id object in array)
+    for (__unused id object in array)
     {
         count++;
     }
@@ -331,7 +331,7 @@
     
     NSUInteger count = 0;
     
-    for (id object in array)
+    for (__unused id object in array)
     {
         count++;
     }
@@ -379,7 +379,7 @@
     
     NSUInteger count = 0;
     
-    for (id object in array)
+    for (__unused id object in array)
     {
         count++;
         
@@ -436,7 +436,7 @@
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
     
     XCTAssertThrows({
-        for (id object in array)
+        for (__unused id object in array)
         {
             array[0] = @1;
         }
@@ -451,7 +451,7 @@
     CCCStaticObjectArray *array = [[CCCStaticObjectArray alloc] initWithCapacity: 100];
     
     XCTAssertThrows({
-        for (id object in array)
+        for (__unused id object in array)
         {
             array[0] = @1;
             array[1] = @2;
@@ -470,7 +470,7 @@
     XCTAssertThrows({
         
         array[0] = @1;
-        for (id object in array)
+        for (__unused id object in array)
         {
             array[1] = @2;
         }
