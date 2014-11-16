@@ -20,6 +20,20 @@
 
 @implementation CCIndexedObjectGenerator
 
+#pragma mark - properties
+
+- (NSUInteger)count
+{
+    CCIndexedGeneratorRange normalizedRange = CCNormalizeRange(self.range);
+    
+    if (normalizedRange.location < 0) {
+        return normalizedRange.length+normalizedRange.location;
+    }
+    
+    return normalizedRange.length;
+}
+
+
 #pragma mark - initialization methods
 
 + (instancetype)generatorWithRange:(CCIndexedGeneratorRange)range
@@ -63,13 +77,13 @@
 
 #pragma mark - accessing objects
 
-- (id) objectAtIndex: (NSInteger) index
+- (id)objectAtIndex:(NSInteger)index
 {
     return self.block(index);
 }
 
 
-- (id) objectAtIndexedSubscript: (NSInteger) index
+- (id)objectAtIndexedSubscript:(NSInteger)index
 {
     return [self objectAtIndex: index];
 }

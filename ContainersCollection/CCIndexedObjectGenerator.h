@@ -12,7 +12,7 @@
 
 #pragma mark - CCIndexedObjectGenerator class cluster
 
-@interface CCIndexedObjectGenerator : NSObject<NSFastEnumeration>
+@interface CCIndexedObjectGenerator : NSArray<NSFastEnumeration>
 @property (nonatomic, readonly) CCIndexedGeneratorRange range;
 
 #pragma mark initialization
