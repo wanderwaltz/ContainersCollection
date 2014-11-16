@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
 /** A static (non-resizable) C array capable of holding
  *  Objective-C (id) objects.
  */
-@interface CCCStaticObjectArray : NSObject<NSCoding, NSCopying, NSFastEnumeration>
+@interface CCCStaticObjectArray : NSArray
 
 #pragma mark properties
 
@@ -84,24 +84,12 @@ typedef NS_ENUM(NSInteger, CCCStaticObjectArrayGetterPolicy)
 - (instancetype)initWithOptions:(NSDictionary *)options
                     objects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION;
 
+#pragma mark - accessing elements
 
+- (void)setObject:(id)object
+            atIndex:(NSUInteger)index;
 
-#pragma mark getting/setting elements
-
-- (id)objectAtIndexedSubscript:(NSUInteger)index;
-- (id)objectAtIndex:(NSUInteger)index;
-
-
-- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index;
-- (void)setObject:(id)object atIndex:(NSUInteger)index;
-
-
-#pragma mark enumeration
-
-- (void)enumerateObjectsUsingBlock:(void (^)(id object, NSUInteger index, BOOL *stop))block;
-
-- (void)enumerateObjectsWithOptions:(NSEnumerationOptions) options
-            usingBlock:(void (^)(id object, NSUInteger index, BOOL *stop))block;
-
+- (void)setObject:(id)object
+            atIndexedSubscript:(NSUInteger)index;
 
 @end

@@ -91,13 +91,19 @@ static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArr
 
 @implementation CCCStaticObjectArray
 
+#pragma mark - properties
+
+- (NSUInteger)count
+{
+    return self.capacity;
+}
+
 #pragma mark -
 #pragma mark initialization methods
 
-- (void) dealloc
+- (void)dealloc
 {
-    for (NSInteger i = 0; i < _capacity; ++i)
-    {
+    for (NSInteger i = 0; i < _capacity; ++i) {
         [self setObject: nil atIndex: i];
     }
     
@@ -112,27 +118,26 @@ static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArr
 }
 
 
-- (instancetype) init
+- (instancetype)init
 {
     return [self initWithCapacity: 0
-                          options: DefaultOptions()];
+                options: DefaultOptions()];
 }
 
 
-- (instancetype) initWithCapacity: (NSUInteger) capacity
+- (instancetype)initWithCapacity:(NSUInteger)capacity
 {
     return [self initWithCapacity: capacity
-                          options: DefaultOptions()];
+                options: DefaultOptions()];
 }
 
 
-- (instancetype) initWithCapacity: (NSUInteger)     capacity
-                          options: (NSDictionary *) options
+- (instancetype)initWithCapacity:(NSUInteger)capacity
+                    options:(NSDictionary *)options
 {
     self = [super init];
     
-    if (self != nil)
-    {
+    if (self != nil) {
         _capacity = capacity;
         
         if (_capacity > 0)
@@ -162,15 +167,15 @@ static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArr
 }
 
 
-- (instancetype) initWithArray: (NSArray *) array
+- (instancetype)initWithArray:(NSArray *)array
 {
     return [self initWithArray: array
-                       options: DefaultOptions()];
+                options: DefaultOptions()];
 }
 
 
-- (instancetype) initWithArray: (NSArray *) array
-                       options: (NSDictionary *) options
+- (instancetype)initWithArray:(NSArray *)array
+                    options:(NSDictionary *)options
 {
     self = [self initWithCapacity: array.count
                           options: options];
@@ -190,8 +195,7 @@ static CCCGetterPtr GetterForCCCStaticObjectArrayGetterPolicy(CCCStaticObjectArr
 
 
 #define Synthesize_initWithObjectsOptions(Options)  \
-if (firstObject != nil)                             \
-{                                                   \
+if (firstObject != nil) {                           \
     NSUInteger count = 1;                           \
                                                     \
     va_list args;                                   \
@@ -202,18 +206,16 @@ if (firstObject != nil)                             \
     va_end(args);                                   \
                                                     \
     self = [self initWithCapacity: count            \
-                          options: Options];        \
+                options: Options];                  \
                                                     \
-    if (self != nil)                                \
-    {                                               \
+    if (self != nil) {                              \
         [self setObject: firstObject atIndex: 0];   \
         NSUInteger i = 1;                           \
         id arg       = nil;                         \
                                                     \
         va_start(args, firstObject);                \
                                                     \
-        while ((arg = va_arg(args, id)))            \
-        {                                           \
+        while ((arg = va_arg(args, id))) {          \
             [self setObject: arg atIndex: i];       \
             i++;                                    \
         }                                           \
@@ -222,21 +224,20 @@ if (firstObject != nil)                             \
     }                                               \
     return self;                                    \
 }                                                   \
-else                                                \
-{                                                   \
+else {                                              \
     return [self initWithCapacity: 0                \
-                          options: Options];        \
+                options: Options];                  \
 }
 
 
-- (instancetype) initWithObjects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION
+- (instancetype)initWithObjects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
     Synthesize_initWithObjectsOptions(DefaultOptions());
 }
 
 
-- (instancetype) initWithOptions: (NSDictionary *) options
-                         objects: (id) firstObject, ... NS_REQUIRES_NIL_TERMINATION
+- (instancetype)initWithOptions:(NSDictionary *)options
+                     objects:(id)firstObject, ... NS_REQUIRES_NIL_TERMINATION
 {
     Synthesize_initWithObjectsOptions(options);
 }
@@ -244,7 +245,7 @@ else                                                \
 #undef Synthesize_initWithObjectsOptions
 
 
-+ (NSDictionary *) defaultOptions
++ (NSDictionary *)defaultOptions
 {
     return DefaultOptions();
 }
@@ -253,96 +254,19 @@ else                                                \
 #pragma mark -
 #pragma mark getting/setting elements
 
-- (id) objectAtIndexedSubscript: (NSUInteger) index
-{
-    return [self objectAtIndex: index];
-}
-
-
-- (id) objectAtIndex: (NSUInteger) index
+- (id)objectAtIndex:(NSUInteger)index
 {
     NSAssert(_getter != nil, @"Getter policy is not set!");
     return _getter(_objects+index);
 }
 
 
-- (void) setObject: (id)         object
-atIndexedSubscript: (NSUInteger) index
-{
-    [self setObject: object
-            atIndex: index];
-}
-
-
-- (void) setObject: (id)         object
-           atIndex: (NSUInteger) index
+- (void)setObject:(id)object
+            atIndex:(NSUInteger)index
 {
     NSAssert(_setter != nil, @"Setter policy is not set!");
     _setter(_objects+index, object);
     _mutationFlag = clock();
-}
-
-
-#pragma mark -
-#pragma mark enumeration
-
-- (void) enumerateObjectsUsingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block
-{
-    [self enumerateObjectsWithOptions: 0 usingBlock: block];
-}
-
-
-- (void) enumerateObjectsWithOptions: (NSEnumerationOptions) options
-                          usingBlock: (void (^)(id object, NSUInteger index, BOOL *stop)) block
-{
-    if (_capacity == 0) return;
-    
-    if (options & NSEnumerationConcurrent) // Concurrent enumeration
-    {
-        __block BOOL stop = NO;
-        
-        if (options & NSEnumerationReverse) // Reverse concurrent enumeration
-        {
-            dispatch_apply(_capacity, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                           ^(size_t i) {
-                               if (!stop)
-                               {
-                                   block([self objectAtIndex: _capacity-i-1], _capacity-i-1, &stop);
-                               }
-                           });
-        }
-        else // Forward concurrent enumeration
-        {
-            dispatch_apply(_capacity, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),
-                           ^(size_t i) {
-                               if (!stop)
-                               {
-                                   block([self objectAtIndex: i], i, &stop);
-                               }
-                           });
-        }
-    }
-    else // Sequential enumeration
-    {
-        BOOL stop = NO;
-        
-        if (options & NSEnumerationReverse) // Reverse sequential enumeration
-        {
-            for (NSUInteger i = _capacity; i > 0; --i)
-            {
-                block([self objectAtIndex: i-1], i-1, &stop);
-                if (stop) break;
-            }
-        }
-        else // Forward sequential enumeration
-        {
-            for (NSUInteger i = 0; i < _capacity; ++i)
-            {
-                block([self objectAtIndex: i], i, &stop);
-                if (stop) break;
-            }
-        }
-    }
 }
 
 
@@ -369,7 +293,6 @@ atIndexedSubscript: (NSUInteger) index
 }
 
 
-
 #pragma mark -
 #pragma mark <NSCoding>
 
@@ -394,6 +317,5 @@ atIndexedSubscript: (NSUInteger) index
     // TODO: implement
     return nil;
 }
-
 
 @end
