@@ -270,6 +270,13 @@ else {                                              \
 }
 
 
+- (void)setObject:(id)object
+             atIndexedSubscript:(NSUInteger)index
+{
+    [self setObject: object atIndex: index];
+}
+
+
 #pragma mark -
 #pragma mark <NSFastEnumeration>
 
