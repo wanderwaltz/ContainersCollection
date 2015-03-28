@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4453F2081AC6A46C00B1B17F /* CCMappedArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4453F2071AC6A46C00B1B17F /* CCMappedArrayTests.m */; };
+		4453F20C1AC6A48900B1B17F /* CCMappedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 4453F20B1AC6A48900B1B17F /* CCMappedArray.m */; };
 		5D056C8C1A18F2B00083F693 /* CCIndexedObjectGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D056C8B1A18F2B00083F693 /* CCIndexedObjectGenerator.m */; };
 		7C8B802F18B4AD0C009324AE /* CCCAccessors.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C8B802E18B4AD0C009324AE /* CCCAccessors.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7CA7658A18B363670047C37E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CA7658918B363670047C37E /* Foundation.framework */; };
@@ -45,6 +47,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4453F2071AC6A46C00B1B17F /* CCMappedArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMappedArrayTests.m; sourceTree = "<group>"; };
+		4453F20A1AC6A48900B1B17F /* CCMappedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMappedArray.h; sourceTree = "<group>"; };
+		4453F20B1AC6A48900B1B17F /* CCMappedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMappedArray.m; sourceTree = "<group>"; };
 		5D056C8A1A18F2B00083F693 /* CCIndexedObjectGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCIndexedObjectGenerator.h; sourceTree = "<group>"; };
 		5D056C8B1A18F2B00083F693 /* CCIndexedObjectGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCIndexedObjectGenerator.m; sourceTree = "<group>"; };
 		7C8B802D18B4AD0C009324AE /* CCCAccessors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCAccessors.h; sourceTree = "<group>"; };
@@ -89,6 +94,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4453F2091AC6A47200B1B17F /* Mapped Array */ = {
+			isa = PBXGroup;
+			children = (
+				4453F20A1AC6A48900B1B17F /* CCMappedArray.h */,
+				4453F20B1AC6A48900B1B17F /* CCMappedArray.m */,
+			);
+			name = "Mapped Array";
+			sourceTree = "<group>";
+		};
 		7C8B802A18B4ACD7009324AE /* private */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,8 +114,9 @@
 		7C8B802B18B4ACE4009324AE /* public */ = {
 			isa = PBXGroup;
 			children = (
-				7CBDB77818BC4A990068FB64 /* Generators */,
 				7CA765AF18B364240047C37E /* C Static Array */,
+				7CBDB77818BC4A990068FB64 /* Generators */,
+				4453F2091AC6A47200B1B17F /* Mapped Array */,
 			);
 			name = public;
 			sourceTree = "<group>";
@@ -165,6 +180,7 @@
 		7CA7659F18B363680047C37E /* ContainersCollectionTests */ = {
 			isa = PBXGroup;
 			children = (
+				4453F2071AC6A46C00B1B17F /* CCMappedArrayTests.m */,
 				7CB034FC18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m */,
 				7CA765B718B369480047C37E /* CCCStaticObjectArrayTests_ARC.m */,
 				7CC7AC7918B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m */,
@@ -295,6 +311,7 @@
 				5D056C8C1A18F2B00083F693 /* CCIndexedObjectGenerator.m in Sources */,
 				7CA765B518B364690047C37E /* CCCStaticObjectArray.m in Sources */,
 				7CBDB78518BC4E330068FB64 /* CCIndexedGeneratorTypes.m in Sources */,
+				4453F20C1AC6A48900B1B17F /* CCMappedArray.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +321,7 @@
 			files = (
 				7CB034FD18BDD9E000BE3DB5 /* CCIndexedObjectGeneratorTests.m in Sources */,
 				7CC7AC7A18B5DB2B000C85F6 /* CCCStaticObjectArray_no_ARC.m in Sources */,
+				4453F2081AC6A46C00B1B17F /* CCMappedArrayTests.m in Sources */,
 				7CA765B818B369480047C37E /* CCCStaticObjectArrayTests_ARC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
